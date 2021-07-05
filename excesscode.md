@@ -1,3 +1,21 @@
+//some notes - vscode memento, uri, globalstate, vscode quickpick menu
+
+---
+
+//export class LocalStorageService {
+// constructor(private storage: Memento) {}
+
+// public getValue<T>(key: string): T {
+// return this.storage.get<T>(key, null as any);
+// }
+
+// public setValue<T>(key: string, value: T) {
+// this.storage.update(key, value);
+// }
+//}
+
+---
+
 // create a new status bar item that we can now manage
 myStatusBarItem = vscode.window.createStatusBarItem(
 vscode.StatusBarAlignment.Right,
@@ -40,3 +58,17 @@ lines = editor.selections.reduce(
 );
 }
 return lines;
+
+---
+
+// click to bring up ctrl shift p search box
+//input box to save youtube link to shortcut menu
+//saved to some type of local storage?
+//dialog box with 3 predefined options (AKA links to youtube videos)
+// on option selection, change primary title (in status bar)
+// load live youtube audio from windows player??
+
+---
+
+{ label: "coffee shop radio // 24/7 lofi hip-hop beats" },
+{ label: "inner city [lofi / jazzhop / chill beats]" },

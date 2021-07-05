@@ -10,14 +10,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:vstodo.helloWorld"
+    "onCommand:samples.quickInput"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "vstodo.helloWorld",
-        "title": "Hello World"
+        "command": "samples.quickInput",
+        "title": "Quick Input Samples"
       }
     ]
   },
