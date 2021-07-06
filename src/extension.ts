@@ -1,5 +1,5 @@
 import { window, commands, ExtensionContext } from "vscode";
-import { showQuickPick, showInputBox } from "./basicInput";
+import { showQuickPick, showInputBox, showStatusBar } from "./basicInput";
 
 export function activate(context: ExtensionContext) {
   context.subscriptions.push(
@@ -19,6 +19,7 @@ export function activate(context: ExtensionContext) {
       });
       quickPick.onDidHide(() => quickPick.dispose());
       quickPick.show();
+      showStatusBar();
     })
   );
 }
