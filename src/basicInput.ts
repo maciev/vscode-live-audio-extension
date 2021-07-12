@@ -1,38 +1,49 @@
-import { isContext } from "vm";
-import { StatusBarAlignment, window } from "vscode";
+import { ExtensionContext, StatusBarAlignment, window } from "vscode";
+//all of this is after that first quick pick menu, specified in extension.ts
 
-/**
- * Shows a pick list using window.showQuickPick().
- */
+let arrString: string[] = ["a", "b", "c"];
+//module for next layer of quickpick, using context?? -- do research
 export async function showQuickPick() {
-  let i = 0;
-  const result = await window.showQuickPick(
+  //actually creating the quickpick -- maybe define as a const?
+  await window.showQuickPick(
+    //below are readonly strings, or "items" in the quickpick menu
     [
       "coffee shop radio // 24/7 lofi hip-hop beats",
       "inner city [lofi / jazzhop / chill beats]",
     ],
+    //below are the options for the showQuickPick menu
     {
       placeHolder: "Create new station",
-      onDidSelectItem: (item) =>
-        window.showInformationMessage(`Now playing: ${item}`),
+      //when item from above is selected, show a now playing message
+
+      //NEED FIX - Statusbar now SHOWS, but creates more than one instance
+      onDidSelectItem: (item) => {
+        window.showInformationMessage(`Now playing: ${item}`);
+        let etc = item.toString();
+        const statusBar = window.createStatusBarItem(
+          StatusBarAlignment.Right,
+          1000
+        );
+        statusBar.text = etc;
+        if (statusBar.text === etc) {
+          statusBar.show();
+        } else {
+          statusBar.dispose();
+        }
+      },
     }
   );
 }
 
+// inputbox is the second choise in the extension.ts quickpick menu
 export async function showInputBox() {
-  const result = await window.showInputBox({
+  //create the input box
+  await window.showInputBox({
     value: "Add the link to your station",
-    valueSelection: [2, 4],
     placeHolder: "Type a link here",
-    //validateInput: (text) => {
-    //  if (text === "") return null;
-    //},
+    //validates text in the input box -- has to include a .com link
+    validateInput: (text) => {
+      return text.includes("com") ? null : "Has to contain a Youtube link";
+    },
   });
-  //window.showInformationMessage(`Added station`);
-}
-export async function showStatusBar() {
-  const result = window.createStatusBarItem(StatusBarAlignment.Right, 1000);
-  result.backgroundColor = "#00AA00";
-  result.text = "$(play) coffee shop radio // 24/7 lofi hip-hop beats ";
-  result.show();
 }
