@@ -5,6 +5,7 @@ let arrString: string[] = ["a", "b", "c"];
 //module for next layer of quickpick, using context?? -- do research
 export async function showQuickPick() {
   //actually creating the quickpick -- maybe define as a const?
+  const statusBar = window.createStatusBarItem(StatusBarAlignment.Right, 1000);
   await window.showQuickPick(
     //below are readonly strings, or "items" in the quickpick menu
     [
@@ -16,19 +17,15 @@ export async function showQuickPick() {
       placeHolder: "Create new station",
       //when item from above is selected, show a now playing message
 
-      //NEED FIX - Statusbar now SHOWS, but creates more than one instance
       onDidSelectItem: (item) => {
         window.showInformationMessage(`Now playing: ${item}`);
         let etc = item.toString();
-        const statusBar = window.createStatusBarItem(
-          StatusBarAlignment.Right,
-          1000
-        );
+
         statusBar.text = etc;
-        if (statusBar.text === etc) {
+        if (statusBar.priority === 1000) {
           statusBar.show();
         } else {
-          statusBar.dispose();
+          statusBar.hide();
         }
       },
     }
@@ -43,7 +40,7 @@ export async function showInputBox() {
     placeHolder: "Type a link here",
     //validates text in the input box -- has to include a .com link
     validateInput: (text) => {
-      return text.includes("com") ? null : "Has to contain a Youtube link";
+      return text.includes("com") ? null : "Enter a valid link";
     },
   });
 }
