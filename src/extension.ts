@@ -1,4 +1,4 @@
-import { window, commands, ExtensionContext } from "vscode";
+import { window, commands, ExtensionContext, StatusBarItem } from "vscode";
 import { showQuickPick, showInputBox } from "./basicInput";
 
 export function activate(context: ExtensionContext) {
@@ -13,8 +13,10 @@ export function activate(context: ExtensionContext) {
         showQuickPick,
         showInputBox,
       };
-      //creating this first set of quickpicks
+      //creating this first set of quickpicks\
+
       const quickPick = window.createQuickPick();
+
       //mapping through the options above
       quickPick.items = Object.keys(options).map((label) => ({ label }));
       // if and when selected, either execute the options functions above, or catch with error
@@ -23,6 +25,7 @@ export function activate(context: ExtensionContext) {
           options[selection[0].label](context).catch(console.error);
         }
       });
+
       //if click off menu, dispose of quickpick bar
       quickPick.onDidHide(() => quickPick.dispose());
       //display quickpick

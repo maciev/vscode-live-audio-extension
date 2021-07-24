@@ -1,38 +1,33 @@
-import { ExtensionContext, StatusBarAlignment, window } from "vscode";
-//all of this is after that first quick pick menu, specified in extension.ts
+import { StatusBarAlignment, window, StatusBarItem } from "vscode";
+import * as vscode from "vscode";
 
-let arrString: string[] = ["a", "b", "c"];
-//module for next layer of quickpick, using context?? -- do research
 export async function showQuickPick() {
-  //actually creating the quickpick -- maybe define as a const?
-  const statusBar = window.createStatusBarItem(StatusBarAlignment.Right, 1000);
+  const myStatusBarItem = window.createStatusBarItem(
+    StatusBarAlignment.Right,
+    1000
+  );
+  myStatusBarItem.show();
   await window.showQuickPick(
     //below are readonly strings, or "items" in the quickpick menu
     [
       "coffee shop radio // 24/7 lofi hip-hop beats",
       "inner city [lofi / jazzhop / chill beats]",
     ],
-    //below are the options for the showQuickPick menu
     {
       placeHolder: "Create new station",
+
       //when item from above is selected, show a now playing message
-
       onDidSelectItem: (item) => {
-        window.showInformationMessage(`Now playing: ${item}`);
         let etc = item.toString();
+        myStatusBarItem.text = etc;
 
-        statusBar.text = etc;
-        if (statusBar.priority === 1000) {
-          statusBar.show();
-        } else {
-          statusBar.hide();
-        }
+        window.showInformationMessage(`Now playing: ${item}`);
       },
     }
   );
 }
 
-// inputbox is the second choise in the extension.ts quickpick menu
+// inputbox is the second choice in the extension.ts quickpick menu
 export async function showInputBox() {
   //create the input box
   await window.showInputBox({
@@ -44,3 +39,5 @@ export async function showInputBox() {
     },
   });
 }
+
+//
