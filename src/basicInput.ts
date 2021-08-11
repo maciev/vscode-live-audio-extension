@@ -1,12 +1,16 @@
 import { StatusBarAlignment, window, StatusBarItem } from "vscode";
 import * as vscode from "vscode";
+import { ReadSyncOptions } from "fs";
+import { AnyRecordWithTtl } from "dns";
 
 export async function showQuickPick() {
-  const myStatusBarItem = window.createStatusBarItem(
+  var firstNewBar = vscode.window.createStatusBarItem(
     StatusBarAlignment.Right,
     1000
   );
-  myStatusBarItem.show();
+  firstNewBar.text = "hello";
+  firstNewBar.show();
+
   await window.showQuickPick(
     //below are readonly strings, or "items" in the quickpick menu
     [
@@ -18,8 +22,7 @@ export async function showQuickPick() {
 
       //when item from above is selected, show a now playing message
       onDidSelectItem: (item) => {
-        let etc = item.toString();
-        myStatusBarItem.text = etc;
+        //myStatusBarItem.text = etc;
 
         window.showInformationMessage(`Now playing: ${item}`);
       },
@@ -40,4 +43,22 @@ export async function showInputBox() {
   });
 }
 
-//
+export default interface StatusBarType {
+  nowPlayingBar: StatusBarItem;
+}
+
+export async function showStatusBar({
+  nowPlayingBar,
+}: StatusBarType): Promise<void> {
+  if (!nowPlayingBar) {
+    let newStatusBar = vscode.window.createStatusBarItem(
+      StatusBarAlignment.Right,
+      1000
+    );
+    newStatusBar.text = "hello";
+    newStatusBar.show();
+  } else {
+    nowPlayingBar;
+    nowPlayingBar.text = "not good mate";
+  }
+}
