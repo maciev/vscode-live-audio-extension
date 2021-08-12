@@ -44,21 +44,26 @@ export async function showInputBox() {
 }
 
 export default interface StatusBarType {
-  nowPlayingBar: StatusBarItem;
+  nowPlayingBar?: StatusBarItem;
 }
 
-export async function showStatusBar({
-  nowPlayingBar,
-}: StatusBarType): Promise<void> {
-  if (!nowPlayingBar) {
-    let newStatusBar = vscode.window.createStatusBarItem(
-      StatusBarAlignment.Right,
-      1000
-    );
-    newStatusBar.text = "hello";
-    newStatusBar.show();
-  } else {
-    nowPlayingBar;
-    nowPlayingBar.text = "not good mate";
+export class ShowStatusBar implements StatusBarType {
+  constructor({ nowPlayingBar }: StatusBarType) {
+    if (!nowPlayingBar) {
+      let nowPlayingBar = vscode.window.createStatusBarItem(
+        StatusBarAlignment.Right,
+        1000
+      );
+
+      nowPlayingBar.text = "hello";
+      nowPlayingBar.show();
+    } else {
+      nowPlayingBar.text = "not good mate";
+    }
   }
 }
+
+let obj = {} as ShowStatusBar;
+
+//export object
+export { obj as StatusBarType };

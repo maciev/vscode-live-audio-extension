@@ -1,6 +1,5 @@
 import { window, commands, ExtensionContext } from "vscode";
-import { showQuickPick, showInputBox, showStatusBar } from "./basicInput";
-import StatusBarType from "./basicInput";
+import { showQuickPick, showInputBox, StatusBarType } from "./basicInput";
 
 export function activate(context: ExtensionContext) {
   context.subscriptions.push(
@@ -27,7 +26,8 @@ export function activate(context: ExtensionContext) {
         }
       });
 
-      showStatusBar(SnowPlayingBar(context));
+      let newObj = StatusBarType;
+      newObj;
 
       //if click off menu, dispose of quickpick bar
       quickPick.onDidHide(() => quickPick.dispose());
