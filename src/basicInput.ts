@@ -1,16 +1,7 @@
 import { StatusBarAlignment, window, StatusBarItem } from "vscode";
 import * as vscode from "vscode";
-import { ReadSyncOptions } from "fs";
-import { AnyRecordWithTtl } from "dns";
 
 export async function showQuickPick() {
-  var firstNewBar = vscode.window.createStatusBarItem(
-    StatusBarAlignment.Right,
-    1000
-  );
-  firstNewBar.text = "hello";
-  firstNewBar.show();
-
   await window.showQuickPick(
     //below are readonly strings, or "items" in the quickpick menu
     [
@@ -43,27 +34,38 @@ export async function showInputBox() {
   });
 }
 
-export default interface StatusBarType {
-  nowPlayingBar?: StatusBarItem;
-}
+//export class ShowStatusBar implements StatusBarType {
+//  constructor({ nowPlayingBar }: StatusBarType) {
+//    if (!nowPlayingBar) {
+//      let nowPlayingBar = vscode.window.createStatusBarItem(
+//        StatusBarAlignment.Right,
+//        1000
+//      );
 
-export class ShowStatusBar implements StatusBarType {
-  constructor({ nowPlayingBar }: StatusBarType) {
-    if (!nowPlayingBar) {
-      let nowPlayingBar = vscode.window.createStatusBarItem(
+//      nowPlayingBar.text = "hello";
+//      nowPlayingBar.show();
+//    } else {
+//      nowPlayingBar.text = "not good mate";
+//    }
+//  }
+//}
+
+//let obj = {} as ShowStatusBar;
+
+//export { obj as StatusBarType };
+// influence from https://github.com/nickthegroot/vscode-gmusic/blob/master/src/googleMusic.ts
+export default class ShowStatusBar {
+  private nowPlayingBar: StatusBarItem;
+  public constructor(context: vscode.ExtensionContext) {
+    if (this.nowPlayingBar) {
+      this.nowPlayingBar.text = "this is a new bar";
+    } else {
+      let statusBarItem = vscode.window.createStatusBarItem(
         StatusBarAlignment.Right,
         1000
       );
 
-      nowPlayingBar.text = "hello";
-      nowPlayingBar.show();
-    } else {
-      nowPlayingBar.text = "not good mate";
+      statusBarItem.show();
     }
   }
 }
-
-let obj = {} as ShowStatusBar;
-
-//export object
-export { obj as StatusBarType };
