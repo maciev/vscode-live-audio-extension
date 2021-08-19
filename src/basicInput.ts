@@ -57,15 +57,15 @@ export async function showInputBox() {
 export default class ShowStatusBar {
   private nowPlayingBar: StatusBarItem;
   public constructor(context: vscode.ExtensionContext) {
-    if (this.nowPlayingBar) {
-      this.nowPlayingBar.text = "this is a new bar";
-    } else {
-      let statusBarItem = vscode.window.createStatusBarItem(
+    while (!this.nowPlayingBar) {
+      this.nowPlayingBar = vscode.window.createStatusBarItem(
         StatusBarAlignment.Right,
         1000
       );
 
-      statusBarItem.show();
+      this.nowPlayingBar.text = "hello";
+      this.nowPlayingBar.show();
+      context.globalState.update("new bar who dis", this.nowPlayingBar);
     }
   }
 }
