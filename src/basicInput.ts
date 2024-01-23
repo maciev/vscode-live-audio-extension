@@ -16,6 +16,22 @@ export async function showQuickPick() {
         //myStatusBarItem.text = etc;
 
         window.showInformationMessage(`Now playing: ${item}`);
+        ShowStatusBar.nowPlayingBar.text = `Now playing: ${item}`;
+
+        // Start scrolling animation
+        let scrollAmount = 0;
+        setInterval(() => {
+          scrollAmount -= 1;
+          const text = ShowStatusBar.nowPlayingBar.text;
+          ShowStatusBar.nowPlayingBar.text =
+            text.slice(scrollAmount) +
+            text.slice(0, text.length + scrollAmount);
+
+          // Reset transform when text fully scrolled
+          if (scrollAmount <= -text.length) {
+            scrollAmount = 0;
+          }
+        }, 1000);
       },
     }
   );
@@ -55,17 +71,20 @@ export async function showInputBox() {
 //export { obj as StatusBarType };
 // influence from https://github.com/nickthegroot/vscode-gmusic/blob/master/src/googleMusic.ts
 export default class ShowStatusBar {
-  private nowPlayingBar: StatusBarItem;
+  public static nowPlayingBar: StatusBarItem;
   public constructor(context: vscode.ExtensionContext) {
-    while (!this.nowPlayingBar) {
-      this.nowPlayingBar = vscode.window.createStatusBarItem(
+    if (!ShowStatusBar.nowPlayingBar) {
+      ShowStatusBar.nowPlayingBar = vscode.window.createStatusBarItem(
         StatusBarAlignment.Right,
         1000
       );
 
-      this.nowPlayingBar.text = "hello";
-      this.nowPlayingBar.show();
-      context.globalState.update("new bar who dis", this.nowPlayingBar);
+      //ShowStatusBar.nowPlayingBar.text = "hello";
+      ShowStatusBar.nowPlayingBar.show();
+      context.globalState.update(
+        "new bar who dis",
+        ShowStatusBar.nowPlayingBar
+      );
     }
   }
 }

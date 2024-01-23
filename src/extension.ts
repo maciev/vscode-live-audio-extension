@@ -1,6 +1,7 @@
 import { window, commands, ExtensionContext, StatusBarItem } from "vscode";
 import { showQuickPick, showInputBox } from "./basicInput";
 import ShowStatusBar from "./basicInput";
+
 export function activate(context: ExtensionContext) {
   context.subscriptions.push(
     //this is the commanand to star the project
